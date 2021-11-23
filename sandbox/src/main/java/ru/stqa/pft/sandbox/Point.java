@@ -2,15 +2,15 @@ package ru.stqa.pft.sandbox;
 
 public class Point {
 
-  public double p1;
-  public double p2;
+  public double x;
+  public double y;
 
-  public Point(double p1, double p2) { //Конструктор. Закомитить, если значения будут вписаны в тело
-    this.p1 = p1;
-    this.p2 = p2;
+  public Point(double x, double y) { //Конструктор. Закомитить, если значения будут вписаны в тело
+    this.x = x;
+    this.y = y;
   }
 
-  public double distance() {          // Метод. Закоммитить, если метот нужно отключить
-    return Math.sqrt((this.p1 * this.p1) + (this.p2 * this.p2));
+  public double distance(Point p2) {          // Метод. Закоммитить, если метод нужно отключить
+    return Math.sqrt((p2.x - this.x)*(p2.x - this.x) + (p2.y - this.y)*(p2.y - this.y));
   }
 }
