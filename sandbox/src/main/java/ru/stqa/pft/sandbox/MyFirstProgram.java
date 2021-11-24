@@ -13,9 +13,10 @@ public class MyFirstProgram {
     Rectangle r = new Rectangle(4,6);
     System.out.println("Площадь прямоугольника со сторонами " + r.a + " и " + r.b + " = " + r.area());
 
-    Point p1 = new Point(10, -11);  // Удалить параметры значений, если будет использоваться обычное вычисление расстояния без спользовании конструктора.
+    Point p1 = new Point(10, -11);
     Point p2 = new Point(4, -1);
     System.out.println("Расстояние между двумя точками равно " + p1.distance(p2) );
+    System.out.println("Расстояние между двумя точками равно " + Point.distance(p1, p2) );
 
   }
 
