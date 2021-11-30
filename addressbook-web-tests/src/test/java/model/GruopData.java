@@ -1,4 +1,4 @@
-package ru.stqa.pft.addressbook;
+package model;
 
 public class GruopData {
   private final String name;
