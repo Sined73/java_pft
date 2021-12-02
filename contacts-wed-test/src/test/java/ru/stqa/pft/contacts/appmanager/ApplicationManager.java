@@ -1,20 +1,18 @@
-package ru.stqa.pft.contacts;
+package ru.stqa.pft.contacts.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import ru.stqa.pft.contacts.tests.ContactData;
 
 import java.util.concurrent.TimeUnit;
 
-public class TestBase {
-  private WebDriver wd;
+public class ApplicationManager {
+  public WebDriver wd;
 
-  @BeforeMethod(alwaysRun = true)
-  public void setUp() throws Exception {
+  public void init() {
     wd = new ChromeDriver();
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/");
@@ -31,19 +29,19 @@ public class TestBase {
     wd.findElement(By.xpath("//input[@value='Login']")).click();
   }
 
-  protected void clickEnter() {
+  public void clickEnter() {
     wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
   }
 
-  protected void logout() {
+  public void logout() {
     wd.findElement(By.linkText("Logout")).click();
   }
 
-  protected void returnHomePage() {
+  public void returnHomePage() {
     wd.findElement(By.linkText("home")).click();
   }
 
-  protected void fillContactForm(ContactData contactData) {
+  public void fillContactForm(ContactData contactData) {
     wd.findElement(By.name("firstname")).click();
     wd.findElement(By.name("firstname")).clear();
     wd.findElement(By.name("firstname")).sendKeys(contactData.getFirstname());
@@ -61,12 +59,11 @@ public class TestBase {
     wd.findElement(By.name("email")).sendKeys(contactData.getEmail());
   }
 
-  protected void gotoAddNewContact() {
+  public void gotoAddNewContact() {
     wd.findElement(By.linkText("add new")).click();
   }
 
-  @AfterMethod(alwaysRun = true)
-  public void tearDown() throws Exception {
+  public void stop() {
     wd.quit();
   }
 

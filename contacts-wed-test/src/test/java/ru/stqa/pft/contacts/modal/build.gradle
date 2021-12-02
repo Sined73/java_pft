@@ -1,3 +1,5 @@
+package ru.stqa.pft.contacts.modal
+
 apply plugin: 'java'
 
 repositories {
