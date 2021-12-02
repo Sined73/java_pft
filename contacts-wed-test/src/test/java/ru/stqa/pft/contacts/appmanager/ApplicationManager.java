@@ -5,17 +5,20 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import ru.stqa.pft.contacts.tests.ContactData;
 
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
+
   public WebDriver wd;
+
+  private ContactHelper contactHelper;
 
   public void init() {
     wd = new ChromeDriver();
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/");
+    contactHelper = new ContactHelper(wd);
     login("admin", "secret");
   }
 
@@ -29,34 +32,8 @@ public class ApplicationManager {
     wd.findElement(By.xpath("//input[@value='Login']")).click();
   }
 
-  public void clickEnter() {
-    wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
-  }
-
   public void logout() {
     wd.findElement(By.linkText("Logout")).click();
-  }
-
-  public void returnHomePage() {
-    wd.findElement(By.linkText("home")).click();
-  }
-
-  public void fillContactForm(ContactData contactData) {
-    wd.findElement(By.name("firstname")).click();
-    wd.findElement(By.name("firstname")).clear();
-    wd.findElement(By.name("firstname")).sendKeys(contactData.getFirstname());
-    wd.findElement(By.name("lastname")).click();
-    wd.findElement(By.name("lastname")).clear();
-    wd.findElement(By.name("lastname")).sendKeys(contactData.getLastname());
-    wd.findElement(By.name("address")).click();
-    wd.findElement(By.name("address")).clear();
-    wd.findElement(By.name("address")).sendKeys(contactData.getAddress());
-    wd.findElement(By.name("mobile")).click();
-    wd.findElement(By.name("mobile")).clear();
-    wd.findElement(By.name("mobile")).sendKeys(contactData.getMobile());
-    wd.findElement(By.name("email")).click();
-    wd.findElement(By.name("email")).clear();
-    wd.findElement(By.name("email")).sendKeys(contactData.getEmail());
   }
 
   public void gotoAddNewContact() {
@@ -83,5 +60,9 @@ public class ApplicationManager {
     } catch (NoAlertPresentException e) {
       return false;
     }
+  }
+
+  public ContactHelper getContactHelper() {
+    return contactHelper;
   }
 }

@@ -1,4 +1,4 @@
-package ru.stqa.pft.contacts.tests;
+package ru.stqa.pft.contacts.modal;
 
 public class ContactData {
   private final String lastname;
