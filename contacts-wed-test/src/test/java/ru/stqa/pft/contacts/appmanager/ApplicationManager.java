@@ -12,6 +12,7 @@ public class ApplicationManager {
 
   public WebDriver wd;
 
+  private NavigationHelper navigationHelper;
   private ContactHelper contactHelper;
 
   public void init() {
@@ -19,6 +20,7 @@ public class ApplicationManager {
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/");
     contactHelper = new ContactHelper(wd);
+    navigationHelper = new NavigationHelper(wd);
     login("admin", "secret");
   }
 
@@ -34,10 +36,6 @@ public class ApplicationManager {
 
   public void logout() {
     wd.findElement(By.linkText("Logout")).click();
-  }
-
-  public void gotoAddNewContact() {
-    wd.findElement(By.linkText("add new")).click();
   }
 
   public void stop() {
@@ -64,5 +62,9 @@ public class ApplicationManager {
 
   public ContactHelper getContactHelper() {
     return contactHelper;
+  }
+
+  public NavigationHelper getNavigationHelper() {
+    return navigationHelper;
   }
 }
