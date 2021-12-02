@@ -11,6 +11,6 @@ public class CreateContact extends TestBase {
     app.getContactHelper().fillContactForm(new ContactData("Попов", "Кувшиновка", "Павел", "+79111111112", "mail@gmail.ru"));
     app.getContactHelper().clickEnter();
     app.getContactHelper().returnHomePage();
-    app.logout();
+    app.getSessionHelper().logout();
   }
 }
