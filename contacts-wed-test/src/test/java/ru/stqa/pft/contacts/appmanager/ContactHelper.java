@@ -26,4 +26,17 @@ public class ContactHelper extends HelperBase {
     type(By.name("email"), contactData.getEmail());
   }
 
+  public void selectContact(String number) {
+    click(By.id(number));
+  }
+
+  public void clickDelete() {
+    click(By.xpath("//input[@value='Delete']"));
+  }
+
+  public void confirmWindow() {
+
+    wd.switchTo().alert().accept();
+
+  }
 }
