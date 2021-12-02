@@ -39,4 +39,8 @@ public class ContactHelper extends HelperBase {
     wd.switchTo().alert().accept();
 
   }
+
+  public void clickUpdate() {
+    click(By.xpath("//div[@id='content']/form/input[22]"));
+  }
 }
