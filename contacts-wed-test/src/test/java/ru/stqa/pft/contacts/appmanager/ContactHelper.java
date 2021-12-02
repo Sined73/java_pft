@@ -27,7 +27,8 @@ public class ContactHelper extends HelperBase {
   }
 
   public void selectContact(String number) {
-    click(By.id(number));
+
+    click(By.name("selected[]"));
   }
 
   public void clickDelete() {
