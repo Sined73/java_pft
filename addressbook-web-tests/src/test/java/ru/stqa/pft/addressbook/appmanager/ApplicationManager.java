@@ -4,9 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.Browser;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public class ApplicationManager {
 
@@ -16,24 +16,25 @@ public class ApplicationManager {
   private SessionHelper sessionHelper;
   private NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
-  private String browser;
+  private final Browser browser;
 
-  public ApplicationManager(String browser) {
+  public ApplicationManager(Browser browser) {
+
     this.browser = browser;
   }
 
   public void init() {
-    if (browser.equals(BrowserType.CHROME)) {
+    if (browser.equals(Browser.CHROME)) {
       wd = new ChromeDriver();
-    } else if (browser.equals(BrowserType.FIREFOX)) {
+    } else if (browser.equals(Browser.FIREFOX)) {
       wd = new FirefoxDriver();
-    } else if (browser.equals(BrowserType.EDGE)) {
+    } else if (browser.equals(Browser.EDGE)) {
       wd = new EdgeDriver();
     }
 //    wd = new ChromeDriver();
 //    wd = new FirefoxDriver();
 //    wd = new EdgeDriver();
-    wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     wd.get("http://localhost/addressbook/");
     groupHelper = new GroupHelper(wd);
     navigationHelper = new NavigationHelper(wd);
