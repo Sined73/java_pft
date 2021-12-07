@@ -18,16 +18,17 @@ public class ContactCreationTests {
   public void setUp() throws Exception {
     wd = new ChromeDriver();
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-  }
-
-  @Test
-  public void testContactCreation() throws Exception {
     wd.get("http://localhost/addressbook/");
     wd.findElement(By.name("user")).clear();
     wd.findElement(By.name("user")).sendKeys("admin");
     wd.findElement(By.name("pass")).clear();
     wd.findElement(By.name("pass")).sendKeys("secret");
     wd.findElement(By.xpath("//input[@value='Login']")).click();
+  }
+
+  @Test
+  public void testContactCreation() throws Exception {
+
     wd.findElement(By.linkText("add new")).click();
     wd.findElement(By.name("firstname")).click();
     wd.findElement(By.name("firstname")).clear();
