@@ -16,4 +16,8 @@ public class NavigationHelper extends HelperBase{
   public void goToContactPage() {
     click(By.linkText("home"));
   }
+
+  public void gotoModificateContact() {
+    click(By.xpath("//img[@alt='Edit']"));
+  }
 }

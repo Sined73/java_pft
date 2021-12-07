@@ -20,10 +20,30 @@ public class ContactHelper extends HelperBase{
     type(By.name("address"), contactData.getAddress());
     type(By.name("mobile"), contactData.getMobile());
     type(By.name("email"), contactData.getEmail());
-
   }
 
   public void initContactCreation() {
     click(By.linkText("add new"));
   }
+
+  public void submitContactModification() {
+    click(By.xpath("//div[@id='content']/form/input[22]"));
+  }
+
+  public void selectContact() {
+    click(By.name("selected[]"));
+  }
+
+  public void deleteSelectedContact() {
+    click(By.xpath("//input[@value='Delete']"));
+  }
+
+  public void confirmWindow() {
+
+    wd.switchTo().alert().accept();
+
+  }
+
+
 }
+
