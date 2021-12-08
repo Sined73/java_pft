@@ -34,4 +34,7 @@ public class NavigationHelper extends HelperBase{
     click(By.xpath("//img[@alt='Edit']"));
   }
 
+  public boolean isThereAModButton() {
+    return isElementPresent(By.xpath("//img[@alt='Edit']"));
+  }
 }
