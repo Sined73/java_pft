@@ -7,7 +7,7 @@ import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
 
 public class TestBase {
 
-  protected final ApplicationManager app = new ApplicationManager(Browser.FIREFOX);
+  protected final ApplicationManager app = new ApplicationManager(Browser.CHROME);
 
   @BeforeMethod(alwaysRun = true)
   public void setUp() throws Exception {
@@ -18,5 +18,4 @@ public class TestBase {
   public void tearDown() throws Exception {
     app.stop();
   }
-
 }
