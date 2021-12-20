@@ -12,7 +12,7 @@ public class ContactModificationTests extends TestBase {
   public void testContactModification() {
     if (!app.getNavigationHelper().isThereAModButton()) {
       app.getContactHelper().createContact(new ContactData("Denis", "Kateev", "Moscow city",
-              "+79111111111", "mail@mail.ru", "[none]"), true);
+              "+79111111111", "mail@mail.ru", "[none]"));
       app.getNavigationHelper().goToHomePage();
     }
     List<ContactData> before = app.getContactHelper().getContactList();
