@@ -25,13 +25,13 @@ public class NavigationHelper extends HelperBase{
     click(By.linkText("home"));
   }
 
-  public void gotoModificateContact() {
+  public void gotoModificateContact(int index) {
     if (isElementPresent(By.tagName("h1"))
             && wd.findElement(By.tagName("h1")).getText().equals("Edit / add address book entry")
             && isElementPresent(By.name("update"))) {
       return;
     }
-    click(By.xpath("//img[@alt='Edit']"));
+    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
   }
 
   public boolean isThereAModButton() {

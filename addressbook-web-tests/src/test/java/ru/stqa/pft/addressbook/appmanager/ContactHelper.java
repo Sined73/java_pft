@@ -2,9 +2,13 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase{
 
@@ -38,8 +42,8 @@ public class ContactHelper extends HelperBase{
     click(By.xpath("//div[@id='content']/form/input[22]"));
   }
 
-  public void selectContact() {
-    click(By.name("selected[]"));
+  public void selectContact(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
   public void deleteSelectedContact() {
@@ -47,10 +51,9 @@ public class ContactHelper extends HelperBase{
   }
 
   public void confirmWindow() {
-
     wd.switchTo().alert().accept();
-
   }
+
   public void createContact(ContactData contact, boolean creation) {
     initContactCreation();
     fillContactForm(contact, creation);
@@ -63,6 +66,21 @@ public class ContactHelper extends HelperBase{
 
   public int getContactCount() {
     return wd.findElements(By.name("selected[]")).size();
+  }
+
+  public List<ContactData> getContactList() {
+    List<ContactData> contacts = new ArrayList<>();
+    List<WebElement> elements = wd.findElements(By.xpath("//tr[@name = 'entry']"));
+    for (WebElement element : elements) {
+      String lastname = element.getText();
+      String firstname = element.getText();
+      String address = element.getText();
+      String email = element.getText();
+      String mobile = element.getText();
+      ContactData contact = new ContactData(firstname, lastname, address, mobile, email);
+      contacts.add(contact);
+    }
+    return contacts;
   }
 }
 
