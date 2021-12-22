@@ -13,7 +13,7 @@ public class ContactCreationTests extends TestBase {
   public void testContactCreation() throws Exception {
     app.getNavigationHelper().goToHomePage();
     List<ContactData> before = app.getContactHelper().getContactList();
-    ContactData contact = new ContactData("Denis", "Kateev", "Moscow city",
+    ContactData contact = new ContactData("Alex", "Katuev", "Moscow city",
             "+79111111111", "mail@mail.ru", "[none]");
     app.getContactHelper().createContact(contact);
     app.getNavigationHelper().goToHomePage();
@@ -21,13 +21,7 @@ public class ContactCreationTests extends TestBase {
     Assert.assertEquals(after.size(), before.size() + 1);
     app.getSessionHelper().logout();
 
-    int max = 0;
-    for (ContactData c : after) {
-      if (c.getId() > max) {
-        max = c.getId();
-      }
-    }
-    contact.setId(max);
+    contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
     before.add(contact);
     Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
   }
