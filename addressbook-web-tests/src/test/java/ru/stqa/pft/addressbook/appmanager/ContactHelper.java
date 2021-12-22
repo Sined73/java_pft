@@ -75,11 +75,11 @@ public class ContactHelper extends HelperBase{
       List<WebElement> cells = element.findElements(By.xpath(".//td"));
       String firstname = cells.get(2).getText();
       String lastname = cells.get(1).getText();
-      String address = cells.get(3).getText();
-      String email = cells.get(4).getText();
-      String mobile = cells.get(5).getText();
+//      String address = cells.get(3).getText();
+//      String email = cells.get(4).getText();
+//      String mobile = cells.get(5).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      ContactData contact = new ContactData(id, firstname, lastname, address, mobile, email, null);
+      ContactData contact = new ContactData(id, firstname, lastname, null, null, null, null);
       contacts.add(contact);
     }
     return contacts;
