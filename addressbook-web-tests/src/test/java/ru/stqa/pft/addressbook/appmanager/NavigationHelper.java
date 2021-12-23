@@ -25,14 +25,7 @@ public class NavigationHelper extends HelperBase{
     click(By.linkText("home"));
   }
 
-  public void gotoModificateContact(int index) {
-    if (isElementPresent(By.tagName("h1"))
-            && wd.findElement(By.tagName("h1")).getText().equals("Edit / add address book entry")
-            && isElementPresent(By.name("update"))) {
-      return;
-    }
-    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
-  }
+
 
   public boolean isThereAModButton() {
     return isElementPresent(By.xpath("//img[@alt='Edit']"));

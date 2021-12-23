@@ -60,6 +60,22 @@ public class ContactHelper extends HelperBase{
     submitContactCreation();
   }
 
+  public void gotoModificateContact(int index) {
+    if (isElementPresent(By.tagName("h1"))
+            && wd.findElement(By.tagName("h1")).getText().equals("Edit / add address book entry")
+            && isElementPresent(By.name("update"))) {
+      return;
+    }
+    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+  }
+
+  public void modifyContact(int indexModContact, ContactData contact) {
+    selectContact(indexModContact);
+    gotoModificateContact(indexModContact);
+    fillContactForm(contact, false);
+    submitContactModification();
+  }
+
   public boolean isThereAContact() {
     return isElementPresent(By.name("selected[]"));
   }
