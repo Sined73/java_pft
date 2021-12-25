@@ -7,26 +7,26 @@ public class ContactData {
   private final String address;
   private final String mobile;
   private final String email;
-  private String group;
+//  private String group;
 
 
-  public ContactData(String firstname, String lastname, String address, String mobile, String email, String group) {
+  public ContactData(String firstname, String lastname, String address, String mobile, String email) {
     this.id = Integer.MAX_VALUE;
     this.firstname = firstname;
     this.lastname = lastname;
     this.address = address;
     this.mobile = mobile;
     this.email = email;
-    this.group = group;
+//    this.group = group;
   }
-  public ContactData(int id, String firstname, String lastname, String address, String mobile, String email, String group) {
+  public ContactData(int id, String firstname, String lastname, String address, String mobile, String email) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
     this.address = address;
     this.mobile = mobile;
     this.email = email;
-    this.group = group;
+//    this.group = group;
   }
 
   public String getFirstname() {
@@ -49,9 +49,9 @@ public class ContactData {
     return email;
   }
 
-  public String getGroup() {
-    return group;
-  }
+//  public String getGroup() {
+//    return group;
+//  }
 
   public int getId() {
     return id;
