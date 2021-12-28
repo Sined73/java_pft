@@ -44,8 +44,8 @@ public class ContactHelper extends HelperBase{
     click(By.xpath("//div[@id='content']/form/input[22]"));
   }
 
-  public void selectContact(int index) {
-    wd.findElements(By.name("selected[]")).get(index).click();
+  public void selectContactById(int id) {
+    wd.findElement(By.xpath("//input[@value='" + id + "']")).click();
   }
 
   public void deleteSelectedContact() {
@@ -62,26 +62,20 @@ public class ContactHelper extends HelperBase{
     submitContactCreation();
   }
 
-  public void gotoModificateContact(int index) {
+  public void gotoModificateContactById(int id) {
     if (isElementPresent(By.tagName("h1"))
             && wd.findElement(By.tagName("h1")).getText().equals("Edit / add address book entry")
             && isElementPresent(By.name("update"))) {
       return;
     }
-    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    wd.findElement(By.xpath("//a[@href='edit.php?id=" + id + "']")).click();
   }
 
-  public void modify(int indexModContact, ContactData contact) {
-    selectContact(indexModContact);
-    gotoModificateContact(indexModContact);
+  public void modify(ContactData contact) {
+    selectContactById(contact.getId());
+    gotoModificateContactById(contact.getId());
     fillContactForm(contact, false);
     submitContactModification();
-  }
-
-  public void delete(int indexDelContact) {
-    selectContact(indexDelContact);
-    deleteSelectedContact();
-    confirmWindow();
   }
 
   public boolean isThereAContact() {
@@ -90,20 +84,6 @@ public class ContactHelper extends HelperBase{
 
   public int getContactCount() {
     return wd.findElements(By.name("selected[]")).size();
-  }
-
-  public List<ContactData> list() {
-    List<ContactData> contacts = new ArrayList<>();
-    List<WebElement> elements = wd.findElements(By.xpath("//tr[@name = 'entry']"));
-    for (WebElement element : elements) {
-      List<WebElement> cells = element.findElements(By.xpath(".//td"));
-      String firstname = cells.get(2).getText();
-      String lastname = cells.get(1).getText();
-      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      ContactData contact = new ContactData().withId(id).withFirstname(firstname).withLastname(lastname);
-      contacts.add(contact);
-    }
-    return contacts;
   }
 
   public Set<ContactData> all() {
@@ -117,5 +97,11 @@ public class ContactHelper extends HelperBase{
       contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
     }
     return contacts;
+  }
+
+  public void delete(ContactData contact) {
+    selectContactById(contact.getId());
+    deleteSelectedContact();
+    confirmWindow();
   }
 }
