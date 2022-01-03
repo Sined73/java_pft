@@ -24,8 +24,10 @@ public class ContactHelper extends HelperBase{
     type(By.name("firstname"), contactData.getFirstname());
     type(By.name("lastname"), contactData.getLastname());
     type(By.name("address"), contactData.getAddress());
-    type(By.name("mobile"), contactData.getMobile());
+    type(By.name("mobile"), contactData.getMobilePhone());
     type(By.name("email"), contactData.getEmail());
+    type(By.name("home"), contactData.getHomePhone());
+    type(By.name("work"), contactData.getWorkPhone());
 
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByIndex(0);
@@ -89,6 +91,13 @@ public class ContactHelper extends HelperBase{
 
   public Contacts contactCache = null;
 
+  public void delete(ContactData contact) {
+    selectContactById(contact.getId());
+    deleteSelectedContact();
+    contactCache = null;
+    confirmWindow();
+  }
+
   public Contacts all() {
     if (contactCache != null) {
       return new Contacts(contactCache);
@@ -97,19 +106,14 @@ public class ContactHelper extends HelperBase{
     List<WebElement> elements = wd.findElements(By.xpath("//tr[@name = 'entry']"));
     for (WebElement element : elements) {
       List<WebElement> cells = element.findElements(By.xpath(".//td"));
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       String firstname = cells.get(2).getText();
       String lastname = cells.get(1).getText();
-      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
+      String[] phones = cells.get(5).getText().split("\n");
+      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withHomePhone(phones[0])
+              .withMobilePhone(phones[1]).withWorkPhone(phones[2]));
     }
     return contactCache;
-  }
-
-  public void delete(ContactData contact) {
-    selectContactById(contact.getId());
-    deleteSelectedContact();
-    contactCache = null;
-    confirmWindow();
   }
 
   public ContactData infoFromEditForm(ContactData contact) {

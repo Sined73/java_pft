@@ -22,13 +22,18 @@ public class ContactData {
     return address;
   }
 
-  public String getMobile() {
+  public String getMobilePhone() {
     return mobile;
   }
 
   public String getEmail() {
     return email;
   }
+
+  public String getHomePhone() { return home; }
+
+  public String getWorkPhone() { return work; }
+
 
   public int getId() {
     return id;
@@ -105,5 +110,6 @@ public class ContactData {
             ", email='" + email + '\'' +
             '}';
   }
+
 }
 

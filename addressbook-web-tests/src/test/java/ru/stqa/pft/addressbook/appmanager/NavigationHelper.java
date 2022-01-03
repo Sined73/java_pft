@@ -25,8 +25,6 @@ public class NavigationHelper extends HelperBase{
     click(By.linkText("home"));
   }
 
-
-
   public boolean isThereAModButton() {
     return isElementPresent(By.xpath("//img[@alt='Edit']"));
   }
