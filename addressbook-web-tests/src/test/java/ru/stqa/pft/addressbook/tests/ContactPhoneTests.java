@@ -17,7 +17,7 @@ public class ContactPhoneTests extends TestBase{
     app.goTo().homePage();
     if (app.contact().all().size() == 0) {
       app.contact().create(new ContactData().withFirstname("Denis").withLastname("Kateev").withAddress("Moscow city").
-              withHomePhone("9265384").withMobilePhone("+79111111111").withEmail("mail@mail.ru"));
+              withHomePhone("926-53-84").withMobilePhone("+7(911)1111111").withEmail("mail@mail.ru"));
       app.goTo().homePage();
     }
   }
