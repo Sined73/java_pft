@@ -8,18 +8,22 @@ public class ContactData {
   private String lastname;
   private String address;
   private String mobilePhone;
+  private String workPhone;
+  private String homePhone;
+  private String secondPhone;
   private String email;
   private String email2;
   private String email3;
-  private String workPhone;
-  private String homePhone;
   private String allPhones;
   private String allEmails;
   private File photo;
 
-
   public File getPhoto() {
     return photo;
+  }
+
+  public String getSecondPhone() {
+    return secondPhone;
   }
 
   public String getAllEmails() {
@@ -128,6 +132,11 @@ public class ContactData {
 
   public ContactData withPhoto(File photo) {
     this.photo = photo;
+    return this;
+  }
+
+  public ContactData withSecondPhone(String secondPhone) {
+    this.secondPhone = secondPhone;
     return this;
   }
 
