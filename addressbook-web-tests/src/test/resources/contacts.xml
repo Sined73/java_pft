@@ -1,0 +1,23 @@
+<list>
+  <contact>
+    <firstname>Иван 0</firstname>
+    <lastname>Петровский 0</lastname>
+    <address>Россия, Санкт-Петербург, Невский, 19 0</address>
+    <mobilePhone>+79033362284 0</mobilePhone>
+    <email>email@mail.ru 0</email>
+  </contact>
+  <contact>
+    <firstname>Иван 1</firstname>
+    <lastname>Петровский 1</lastname>
+    <address>Россия, Санкт-Петербург, Невский, 19 1</address>
+    <mobilePhone>+79033362284 1</mobilePhone>
+    <email>email@mail.ru 1</email>
+  </contact>
+  <contact>
+    <firstname>Иван 2</firstname>
+    <lastname>Петровский 2</lastname>
+    <address>Россия, Санкт-Петербург, Невский, 19 2</address>
+    <mobilePhone>+79033362284 2</mobilePhone>
+    <email>email@mail.ru 2</email>
+  </contact>
+</list>
