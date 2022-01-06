@@ -1,0 +1,23 @@
+[
+  {
+    "firstname": "Иван 0",
+    "lastname": "Петровский 0",
+    "address": "Россия, Санкт-Петербург, Невский, 19 0",
+    "mobilePhone": "+79033362284 0",
+    "email": "email@mail.ru 0"
+  },
+  {
+    "firstname": "Иван 1",
+    "lastname": "Петровский 1",
+    "address": "Россия, Санкт-Петербург, Невский, 19 1",
+    "mobilePhone": "+79033362284 1",
+    "email": "email@mail.ru 1"
+  },
+  {
+    "firstname": "Иван 2",
+    "lastname": "Петровский 2",
+    "address": "Россия, Санкт-Петербург, Невский, 19 2",
+    "mobilePhone": "+79033362284 2",
+    "email": "email@mail.ru 2"
+  }
+]
