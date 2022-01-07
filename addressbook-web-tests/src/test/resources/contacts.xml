@@ -1,23 +1,23 @@
 <list>
   <contact>
-    <firstname>Иван 0</firstname>
-    <lastname>Петровский 0</lastname>
-    <address>Россия, Санкт-Петербург, Невский, 19 0</address>
-    <mobilePhone>+79033362284 0</mobilePhone>
-    <email>email@mail.ru 0</email>
+    <firstname>Nikolay</firstname>
+    <lastname>Gogol</lastname>
+    <address>Russia, Moscow, Nikitskiy boulevard, 7a</address>
+    <mobilePhone>+79123658497 0</mobilePhone>
+    <email>email@mail.ru</email>
   </contact>
   <contact>
-    <firstname>Иван 1</firstname>
-    <lastname>Петровский 1</lastname>
-    <address>Россия, Санкт-Петербург, Невский, 19 1</address>
-    <mobilePhone>+79033362284 1</mobilePhone>
+    <firstname>Nikolay 1</firstname>
+    <lastname>Gogol 1</lastname>
+    <address>Russia, Moscow, Nikitskiy boulevard, 7a 1</address>
+    <mobilePhone>+79123658497 1</mobilePhone>
     <email>email@mail.ru 1</email>
   </contact>
   <contact>
-    <firstname>Иван 2</firstname>
-    <lastname>Петровский 2</lastname>
-    <address>Россия, Санкт-Петербург, Невский, 19 2</address>
-    <mobilePhone>+79033362284 2</mobilePhone>
+    <firstname>Nikolay 2</firstname>
+    <lastname>Gogol 2</lastname>
+    <address>Russia, Moscow, Nikitskiy boulevard, 7a 2</address>
+    <mobilePhone>+79123658497 2</mobilePhone>
     <email>email@mail.ru 2</email>
   </contact>
 </list>
