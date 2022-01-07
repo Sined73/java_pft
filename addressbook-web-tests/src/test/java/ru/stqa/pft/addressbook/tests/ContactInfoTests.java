@@ -4,7 +4,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -13,13 +16,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactInfoTests extends TestBase{
 
   @BeforeMethod
-  public void ensurePreconditions() {
+  public void ensurePreconditions() throws IOException {
     app.goTo().homePage();
     if (app.contact().all().size() == 0) {
-      app.contact().create(new ContactData().withFirstname("Denis").withLastname("Kateev")
-              .withAddress("Санкт-Петербург, пр-т Невский, д. 15, корп.15/4, кв. 2032").
-              withHomePhone("926-53-84").withMobilePhone("+7(911)1111111").withSecondPhone("9163265586")
-              .withEmail("mail@mail.ru").withEmail2("king@gmail.com").withEmail3("email3@test.ru"));
+      Properties properties = new Properties();
+      String target = System.getProperty("target", "local");
+      properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
+      app.contact().create(new ContactData().withFirstname(properties.getProperty("contact.name"))
+              .withLastname(properties.getProperty("contact.lastname"))
+              .withAddress(properties.getProperty("contact.address"))
+              .withMobilePhone(properties.getProperty("contact.mobile"))
+              .withWorkPhone(properties.getProperty("contact.workPhone"))
+              .withHomePhone(properties.getProperty("contact.homePhone"))
+              .withSecondPhone(properties.getProperty("contact.workPhone2"))
+              .withEmail(properties.getProperty("contact.email"))
+              .withEmail2(properties.getProperty("contact.email2"))
+              .withEmail3(properties.getProperty("contact.email3")));
       app.goTo().homePage();
     }
   }
