@@ -20,7 +20,7 @@ public class ContactDeletionTests extends TestBase{
     logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
     logger.info("Проверка контактов на странице");
-    if (app.contact().all().size() == 0) {
+    if (app.db().contacts().size() == 0) {
       Properties properties = new Properties();
       String target = System.getProperty("target", "local");
       properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
@@ -39,7 +39,7 @@ public class ContactDeletionTests extends TestBase{
   @Test
   public void testContactDeletion() {
     logger.info("Считать контакты «до» удаления");
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     logger.info("Выбрать удаляемый контакт");
     ContactData deletedContact = before.iterator().next();
     logger.info("Удалить контакт");
@@ -49,7 +49,7 @@ public class ContactDeletionTests extends TestBase{
     logger.info("Проверить, что список контактов уменьшился на 1");
     assertThat(app.contact().count(), equalTo(before.size() - 1));
     logger.info("Считать контакты «после» удаления");
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     logger.info("Проверить, что удалился нужный контакт");
     assertThat(after, equalTo(before.without(deletedContact)));
   }

@@ -19,7 +19,7 @@ public class ContactModificationTests extends TestBase {
     logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
     logger.info("Проверка контактов на странице");
-    if (app.contact().all().size() == 0) {
+    if (app.db().contacts().size() == 0) {
       Properties properties = new Properties();
       String target = System.getProperty("target", "local");
       properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
@@ -40,7 +40,7 @@ public class ContactModificationTests extends TestBase {
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
     logger.info("Считать контакты «до» изменения");
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     logger.info("Выбрать контакт для изменения");
     ContactData modifiedContact = before.iterator().next();
     logger.info("Внести изменения в контакт");
@@ -56,7 +56,7 @@ public class ContactModificationTests extends TestBase {
     logger.info("Проверить, что количество контактов не изменилось");
     assertThat(app.contact().count(), equalTo(before.size()));
     logger.info("Считать контакты после изменения");
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     logger.info("Проверить, что изменения прошли корректно");
     assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
   }

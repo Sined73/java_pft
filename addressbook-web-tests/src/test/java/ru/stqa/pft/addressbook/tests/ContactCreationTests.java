@@ -59,7 +59,7 @@ public class ContactCreationTests extends TestBase {
     logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
     logger.info("Считать контакты «до» создания");
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     logger.info("Перейти на страницу создания контактаи создать новый контакт");
     app.contact().create(contact);
     logger.info("Вернуться на стартовую страницу");
@@ -67,7 +67,7 @@ public class ContactCreationTests extends TestBase {
     logger.info("Проверить, что список контактов увеличился на 1");
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     logger.info("Считать контакты «после» создания");
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     logger.info("Проверить, что создался нужный контакт");
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
