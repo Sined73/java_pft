@@ -15,29 +15,42 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactDeletionTests extends TestBase{
 
   @BeforeMethod
+
   public void ensurePreconditions() throws IOException {
+    logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
+    logger.info("Проверка контактов на странице");
     if (app.contact().all().size() == 0) {
       Properties properties = new Properties();
       String target = System.getProperty("target", "local");
       properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
+      logger.info("Контактов нет. Создать новый контакт");
       app.contact().create(new ContactData().withFirstname(properties.getProperty("contact.name"))
               .withLastname(properties.getProperty("contact.lastname"))
               .withAddress(properties.getProperty("contact.address"))
               .withMobilePhone(properties.getProperty("contact.mobile"))
               .withEmail(properties.getProperty("contact.email")));
-      app.goTo().homePage();
+      logger.info("Контакт создан");
     }
+    logger.info("Перейти на стартовую страницу");
+    app.goTo().homePage();
   }
 
   @Test
   public void testContactDeletion() {
+    logger.info("Считать контакты «до» удаления");
     Contacts before = app.contact().all();
+    logger.info("Выбрать удаляемый контакт");
     ContactData deletedContact = before.iterator().next();
+    logger.info("Удалить контакт");
     app.contact().delete(deletedContact);
+    logger.info("Перейти на стартовую страницу");
     app.goTo().homePage();
+    logger.info("Проверить, что список контактов уменьшился на 1");
     assertThat(app.contact().count(), equalTo(before.size() - 1));
+    logger.info("Считать контакты «после» удаления");
     Contacts after = app.contact().all();
+    logger.info("Проверить, что удалился нужный контакт");
     assertThat(after, equalTo(before.without(deletedContact)));
   }
  }

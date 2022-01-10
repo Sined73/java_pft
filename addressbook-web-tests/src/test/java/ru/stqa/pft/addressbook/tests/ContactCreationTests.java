@@ -23,6 +23,7 @@ public class ContactCreationTests extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validContactsFromXml() throws IOException {
+    logger.info("Загрузка контактов из файла .xml");
     try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
       String xml = "";
       String line = reader.readLine();
@@ -39,6 +40,7 @@ public class ContactCreationTests extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validContactsFromJson() throws IOException {
+    logger.info("Загрузка контактов из файла .json");
     try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
       String json = "";
       String line = reader.readLine();
@@ -54,12 +56,19 @@ public class ContactCreationTests extends TestBase {
 
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreation(ContactData contact) throws Exception {
+    logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
+    logger.info("Считать контакты «до» создания");
     Contacts before = app.contact().all();
+    logger.info("Перейти на страницу создания контактаи создать новый контакт");
     app.contact().create(contact);
+    logger.info("Вернуться на стартовую страницу");
     app.goTo().homePage();
+    logger.info("Проверить, что список контактов увеличился на 1");
     assertThat(app.contact().count(), equalTo(before.size() + 1));
+    logger.info("Считать контакты «после» создания");
     Contacts after = app.contact().all();
+    logger.info("Проверить, что создался нужный контакт");
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }

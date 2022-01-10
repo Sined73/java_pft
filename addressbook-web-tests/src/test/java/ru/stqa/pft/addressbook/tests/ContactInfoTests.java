@@ -17,11 +17,14 @@ public class ContactInfoTests extends TestBase{
 
   @BeforeMethod
   public void ensurePreconditions() throws IOException {
+    logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
+    logger.info("Проверка контактов на странице");
     if (app.contact().all().size() == 0) {
       Properties properties = new Properties();
       String target = System.getProperty("target", "local");
       properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
+      logger.info("Контактов нет. Создать новый контакт");
       app.contact().create(new ContactData().withFirstname(properties.getProperty("contact.name"))
               .withLastname(properties.getProperty("contact.lastname"))
               .withAddress(properties.getProperty("contact.address"))
@@ -32,18 +35,26 @@ public class ContactInfoTests extends TestBase{
               .withEmail(properties.getProperty("contact.email"))
               .withEmail2(properties.getProperty("contact.email2"))
               .withEmail3(properties.getProperty("contact.email3")));
-      app.goTo().homePage();
+      logger.info("Контакт создан");
     }
+    logger.info("Перейти на стартовую страницу");
+    app.goTo().homePage();
   }
 
   @Test
   public void testContactPhones() {
+    logger.info("Перейти на стартовую страницу");
     app.goTo().homePage();
+    logger.info("Выбрать контакт для проверки данных");
     ContactData contact = app.contact().all().iterator().next();
+    logger.info("Просмотреть данные на странице редактирования");
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
+    logger.info("Сверить номера телефонов");
     assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
+    logger.info("Сверить Email");
     assertThat(contact.getAllEmails(), equalTo(mergeEmails(contactInfoFromEditForm)));
+    logger.info("Сверить адрес");
     assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
   }
 
