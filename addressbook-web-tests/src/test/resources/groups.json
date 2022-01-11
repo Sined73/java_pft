@@ -3,5 +3,15 @@
     "name": "Test 0",
     "header": "header 0",
     "footer": "footer 0"
+  },
+  {
+    "name": "Test 1",
+    "header": "header 1",
+    "footer": "footer 1"
+  },
+  {
+    "name": "Test 2",
+    "header": "header 2",
+    "footer": "footer 2"
   }
 ]

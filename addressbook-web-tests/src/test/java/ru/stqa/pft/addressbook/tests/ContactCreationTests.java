@@ -71,5 +71,8 @@ public class ContactCreationTests extends TestBase {
     logger.info("Проверить, что создался нужный контакт");
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+    verifyContactListInUi();
   }
+
+
 }
