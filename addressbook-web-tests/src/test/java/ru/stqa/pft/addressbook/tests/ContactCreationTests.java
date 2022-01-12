@@ -7,6 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -54,14 +56,29 @@ public class ContactCreationTests extends TestBase {
     }
   }
 
-  @Test(dataProvider = "validContactsFromJson")
-  public void testContactCreation(ContactData contact) throws Exception {
+  @Test
+  public void testContactCreation() throws Exception {
     logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
     logger.info("Считать контакты «до» создания");
     Contacts before = app.db().contacts();
     logger.info("Перейти на страницу создания контактаи создать новый контакт");
-    app.contact().create(contact);
+    Groups groups = app.db().groups();
+    Properties properties = new Properties();
+    String target = System.getProperty("target", "local");
+    properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
+    ContactData newContact = new ContactData().withFirstname(properties.getProperty("contact.name"))
+            .withLastname(properties.getProperty("contact.lastname"))
+            .withAddress(properties.getProperty("contact.address"))
+            .withEmail(properties.getProperty("contact.email"))
+            .withEmail2(properties.getProperty("contact.email2"))
+            .withEmail3(properties.getProperty("contact.email3"))
+            .withMobilePhone(properties.getProperty("contact.mobile"))
+            .withWorkPhone(properties.getProperty("contact.workPhone"))
+            .withHomePhone(properties.getProperty("contact.homePhone"))
+            .withSecondPhone(properties.getProperty("contact.phone2"))
+            .inGroup(groups.iterator().next());
+    app.contact().create(newContact);
     logger.info("Вернуться на стартовую страницу");
     app.goTo().homePage();
     logger.info("Проверить, что список контактов увеличился на 1");
@@ -70,7 +87,7 @@ public class ContactCreationTests extends TestBase {
     Contacts after = app.db().contacts();
     logger.info("Проверить, что создался нужный контакт");
     assertThat(after, equalTo(
-            before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+            before.withAdded(newContact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     verifyContactListInUi();
   }
 

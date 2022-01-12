@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -33,11 +34,14 @@ public class ContactHelper extends HelperBase{
     type(By.name("email2"), contactData.getEmail2());
     type(By.name("email3"), contactData.getEmail3());
 
-
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).selectByIndex(0);
-    } else {
-      Assert.assertFalse(isElementPresent(By.name("new_group")));
+      if (contactData.getGroups().size() > 0) {
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups()
+                .iterator().next().getName());
+      } else {
+        Assert.assertFalse(isElementPresent(By.name("new_group")));
+      }
     }
   }
 
@@ -66,7 +70,6 @@ public class ContactHelper extends HelperBase{
     fillContactForm(contact, true);
     submitContactCreation();
     contactCache = null;
-
   }
 
   public void gotoModificateContactById(int id) {
@@ -94,7 +97,20 @@ public class ContactHelper extends HelperBase{
     return wd.findElements(By.name("selected[]")).size();
   }
 
+  public void selectGroupForAdd(GroupData group) {
+    new Select(wd.findElement(By.xpath("//select[@name='to_group']"))).selectByValue(String.valueOf(group.getId()));  }
+
+  public void addToGroup() {
+    click(By.xpath("//input[@value='Add to']"));
+  }
+
   public Contacts contactCache = null;
+
+  public void addContactInGroup(ContactData contact, GroupData group) {
+    selectContactById(contact.getId());
+    selectGroupForAdd(group);
+    addToGroup();
+  }
 
   public void delete(ContactData contact) {
     selectContactById(contact.getId());
