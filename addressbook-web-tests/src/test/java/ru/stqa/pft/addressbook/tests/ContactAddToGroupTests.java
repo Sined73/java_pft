@@ -9,9 +9,7 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
 
 public class ContactAddToGroupTests extends TestBase {
 
@@ -31,49 +29,22 @@ public class ContactAddToGroupTests extends TestBase {
               .withFooter(properties.getProperty("group.footer")));
     }
   }
-
   @Test
   public void testAddContactInGroup() throws Exception {
     logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
-    ContactData addedContact = selectContacts();
-    GroupData groupToAdd = selectGroups(addedContact);
-    app.contact().addContactInGroup(addedContact, groupToAdd);
-  }
-
-  public GroupData selectGroups(ContactData contact) {
-    Groups groups = app.db().groups();
-    Set<GroupData> freeGroups = new HashSet<>(groups);
-    freeGroups.removeAll(contact.getGroups());
-    if (freeGroups.size() == 0) {
-      app.goTo().groupPage();
-      GroupData added = new GroupData();
-      app.group().create(added.withName("Group for contact").withHeader("000").withFooter("000"));
-      app.goTo().homePage();
-      freeGroups.add(added);
-      Groups reload = app.db().groups();
-      Set<GroupData> afterReload = new HashSet<>(reload);
-      freeGroups.removeAll(contact.getGroups());
-      freeGroups = afterReload;
-    }
-    return freeGroups.iterator().next();
-  }
-  public ContactData selectContacts() {
     Contacts contacts = app.db().contacts();
     Groups groups = app.db().groups();
-            for (ContactData contact : contacts) {
-    if (contact.getGroups().size() < groups.size()) {
-      return contact;
-    }
-  }
-        return contacts.iterator().next();
+    ContactData addedContact = contacts.iterator().next();
+    GroupData groupToAdd = groups.iterator().next();
+    app.contact().addContactInGroup(addedContact, groupToAdd);
+    //logger.info("Выбрать группу, если групп нет, создать");
+    //logger.info("Проверить список контактов в группе до добавления");
+    //logger.info("Перейти ко всем контактам в группах");
+    logger.info("Выбрать контакт");
+    logger.info("Выбрать группу");
+    logger.info("Нажать добавить");
+    logger.info("Перейти на страницу выбранной группы");
+    logger.info("проверить список после добавления");
   }
 }
-//    logger.info("Выбрать группу, если групп нет, создать");
-//    logger.info("Проверить список контактов в группе до добавления");
-//    logger.info("Перейти ко всем контактам в группах");
-//    logger.info("Выбрать контакт");
-//    logger.info("Выбрать группу");
-//    logger.info("Нажать добавить");
-//    logger.info("Перейти на страницу выбранной группы");
-//    logger.info("проверить список после добавления");
