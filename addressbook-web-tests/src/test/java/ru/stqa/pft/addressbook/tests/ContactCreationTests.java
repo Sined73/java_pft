@@ -101,14 +101,11 @@ public class ContactCreationTests extends TestBase {
     Contacts before = app.db().contacts();
     logger.info("Считать группы из базы");
     Groups groups = app.db().groups();
-    Properties properties = new Properties();
-    String target = System.getProperty("target", "local");
-    properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
-    ContactData contact = new ContactData().withFirstname(properties.getProperty("contact.name"))
-            .withLastname(properties.getProperty("contact.lastname"))
-            .withAddress(properties.getProperty("contact.address"))
-            .withMobilePhone(properties.getProperty("contact.mobile"))
-            .withEmail(properties.getProperty("contact.email"))
+    ContactData contact = new ContactData().withFirstname("Bulgakov")
+            .withLastname("Michail")
+            .withAddress("Moscow, Flowers street, 15, ap.78")
+            .withMobilePhone("8926354785")
+            .withEmail("voland666@mail.ru")
             .inGroup(groups.iterator().next());
     app.contact().create(contact);
     app.goTo().homePage();

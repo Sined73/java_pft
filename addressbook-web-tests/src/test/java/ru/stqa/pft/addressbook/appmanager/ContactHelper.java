@@ -72,8 +72,16 @@ public class ContactHelper extends HelperBase{
     wd.switchTo().alert().accept();
   }
 
-  public void selectGroup(GroupData group) {
+  public void selectGroupForAdd(GroupData group) {
     new Select(wd.findElement(By.xpath("//select[@name='to_group']"))).selectByValue(String.valueOf(group.getId()));
+  }
+
+  public void removeFromGroup() {
+    wd.findElement(By.xpath("//input[@name='remove']")).click();
+  }
+
+  public void selectGroupForDelete(GroupData group) {
+    new Select(wd.findElement(By.xpath("//select[@name='group']"))).selectByValue(String.valueOf(group.getId()));
   }
 
   public void addToGroup() {
@@ -106,8 +114,14 @@ public class ContactHelper extends HelperBase{
 
   public void addContactInGroup(ContactData contact, GroupData group) {
     selectContactById(contact.getId());
-    selectGroup(group);
+    selectGroupForAdd(group);
     addToGroup();
+  }
+
+  public void removeContactFromGroup(ContactData contact, GroupData group) {
+    selectGroupForDelete(group);
+    selectContactById(contact.getId());
+    removeFromGroup();
   }
 
   public boolean isThereAContact() {
