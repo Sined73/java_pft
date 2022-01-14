@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -71,6 +72,14 @@ public class ContactHelper extends HelperBase{
     wd.switchTo().alert().accept();
   }
 
+  public void selectGroup(GroupData group) {
+    new Select(wd.findElement(By.xpath("//select[@name='to_group']"))).selectByIndex(group.getId());
+  }
+
+  public void addToGroup() {
+    click(By.xpath("//input[@value='Add to']"));
+  }
+
   public void create(ContactData contact) {
     initContactCreation();
     fillContactForm(contact, true);
@@ -93,6 +102,12 @@ public class ContactHelper extends HelperBase{
     fillContactForm(contact, false);
     submitContactModification();
     contactCache = null;
+  }
+
+  public void addContactInGroup(ContactData contact, GroupData group) {
+    selectContactById(contact.getId());
+    selectGroup(group);
+    addToGroup();
   }
 
   public boolean isThereAContact() {

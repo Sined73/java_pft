@@ -3,10 +3,12 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
@@ -22,6 +24,20 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
+
+  @BeforeMethod
+  public void ensurePreconditions() throws IOException {
+    Properties properties = new Properties();
+    String target = System.getProperty("target", "local");
+    properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
+    if (app.db().groups().size() == 0) {
+      app.goTo().groupPage();
+      app.group().create(new GroupData()
+              .withName(properties.getProperty("group.name"))
+              .withHeader(properties.getProperty("group.header"))
+              .withFooter(properties.getProperty("group.footer")));
+    }
+  }
 
   @DataProvider
   public Iterator<Object[]> validContactsFromXml() throws IOException {
@@ -79,9 +95,11 @@ public class ContactCreationTests extends TestBase {
 
   @Test
   public void testContactCreation() throws IOException {
+    logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
+    logger.info("Считать контакты «до» создания из базы");
     Contacts before = app.db().contacts();
-    app.contact().initContactCreation();
+    logger.info("Считать группы из базы");
     Groups groups = app.db().groups();
     Properties properties = new Properties();
     String target = System.getProperty("target", "local");
