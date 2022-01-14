@@ -95,11 +95,8 @@ public class ContactCreationTests extends TestBase {
 
   @Test
   public void testContactCreation() throws IOException {
-    logger.info("Открыть стартовую страницу");
     app.goTo().homePage();
-    logger.info("Считать контакты «до» создания из базы");
     Contacts before = app.db().contacts();
-    logger.info("Считать группы из базы");
     Groups groups = app.db().groups();
     ContactData contact = new ContactData().withFirstname("Bulgakov")
             .withLastname("Michail")
