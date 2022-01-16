@@ -53,6 +53,7 @@ public class ContactAddToGroup extends TestBase {
   public GroupData selectGroups(ContactData contact) {
     Groups groups = app.db().groups();
     Set<GroupData> freeGroups = new HashSet<>(groups);
+    freeGroups.removeAll(contact.getGroups());
     return freeGroups.iterator().next();
   }
 

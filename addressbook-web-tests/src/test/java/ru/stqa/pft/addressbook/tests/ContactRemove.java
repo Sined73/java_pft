@@ -11,21 +11,25 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactRemove extends TestBase {
+
   @BeforeMethod
   public void ensurePreconditions() {
-    if (app.db().contacts().size() == 0) {
-      app.contact().create(new ContactData().withFirstname("Bulgakov")
-              .withLastname("Michail")
-              .withAddress("Moscow, Flowers street, 15, ap.78")
-              .withMobilePhone("8926354785")
-              .withEmail("voland666@mail.ru"));
-    }
     if (app.db().groups().size() == 0) {
       app.goTo().groupPage();
       app.group().create(new GroupData()
               .withName("test65")
               .withHeader("test81")
               .withFooter("test71"));
+    }
+    if (app.db().contacts().size() == 0) {
+      Groups groups = app.db().groups();
+      app.goTo().homePage();
+      app.contact().create(new ContactData().withFirstname("Bulgakov")
+              .withLastname("Michail")
+              .withAddress("Moscow, Flowers street, 15, ap.78")
+              .withMobilePhone("8926354785")
+              .withEmail("voland666@mail.ru")
+              .inGroup(groups.iterator().next()));
     }
   }
   @Test
@@ -46,7 +50,6 @@ public class ContactRemove extends TestBase {
   }
 
   public GroupData selectGroups(ContactData contact) {
-
     return contact.getGroups().iterator().next();
   }
 
@@ -68,7 +71,7 @@ public class ContactRemove extends TestBase {
               .withLastname("Maxim")
               .withAddress("Moscow, Arbat street, 18, ap.30")
               .withMobilePhone("89055555555")
-               .withEmail("dno54@mail.ru")
+              .withEmail("dno54@mail.ru")
               .inGroup(groups.iterator().next()));
       Contacts contacts2 = app.db().contacts();
       for (ContactData contact2 : contacts2) {
