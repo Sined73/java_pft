@@ -73,6 +73,7 @@ public class ContactRemove extends TestBase {
               .withMobilePhone("89055555555")
               .withEmail("dno54@mail.ru")
               .inGroup(groups.iterator().next()));
+      app.goTo().homePage();
       Contacts contacts2 = app.db().contacts();
       for (ContactData contact2 : contacts2) {
         if (contact2.getGroups().size() > 0) {
