@@ -18,11 +18,14 @@ public class ContactAddToGroup extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     if (app.db().contacts().size() == 0) {
+//      Groups groups = app.db().groups();
       app.contact().create(new ContactData().withFirstname("Bulgakov")
               .withLastname("Michail")
               .withAddress("Moscow, Flowers street, 15, ap.78")
               .withMobilePhone("8926354785")
               .withEmail("voland666@mail.ru"));
+//              .inGroup(groups.iterator().next()));
+      app.goTo().homePage();
     }
     if (app.db().groups().size() == 0) {
       app.goTo().groupPage();
@@ -31,6 +34,7 @@ public class ContactAddToGroup extends TestBase {
               .withHeader("test81")
               .withFooter("test71"));
     }
+
   }
 
   @Test

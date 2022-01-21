@@ -39,6 +39,7 @@ public class ContactRemove extends TestBase {
     Groups before = addedContact.getGroups();
     GroupData groupToAdd = selectGroups(addedContact);
     app.contact().removeContactFromGroup(addedContact, groupToAdd);
+
     Contacts contacts = app.db().contacts();
     Groups after = null;
     for (ContactData contact : contacts) {
@@ -65,6 +66,7 @@ public class ContactRemove extends TestBase {
         i = i - 1;
       }
     }
+
     if (i == 0) {
       app.contact().create(new ContactData()
               .withFirstname("Gorky")
