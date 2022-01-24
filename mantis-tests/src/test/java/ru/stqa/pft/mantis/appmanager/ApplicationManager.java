@@ -4,9 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.BrowserType;
-
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.Duration;
@@ -16,9 +16,8 @@ public class ApplicationManager {
 
   private final Properties properties;
   private WebDriver wd;
-
   private final String browser;
-  private RegistrationHelper registationHelper;
+  private RegistrationHelper registrationHelper;
   private FtpHelper ftp;
   private MailHelper mailHelper;
   private JamesHelper jamesHelper;
@@ -30,7 +29,7 @@ public class ApplicationManager {
 
   public void init() throws IOException {
     String target = System.getProperty("target", "local");
-    properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+    properties.load(new FileReader(String.format("src/test/resources/%s.properties", target)));
   }
 
   public void stop() {
@@ -48,10 +47,10 @@ public class ApplicationManager {
   }
 
   public RegistrationHelper registration() {
-    if (registationHelper == null) {
-      registationHelper = new RegistrationHelper(this);
+    if (registrationHelper == null) {
+      registrationHelper = new RegistrationHelper(this);
     }
-    return registationHelper;
+    return registrationHelper;
   }
 
   public FtpHelper ftp() {
@@ -63,12 +62,22 @@ public class ApplicationManager {
 
   public WebDriver getDriver() {
     if (wd == null) {
-      if (browser.equals(BrowserType.CHROME)) {
-        wd = new ChromeDriver();
-      } else if (browser.equals(BrowserType.FIREFOX)) {
-        wd = new FirefoxDriver();
-      } else if (browser.equals(BrowserType.EDGE)) {
-        wd = new EdgeDriver();
+      switch (browser) {
+        case BrowserType.CHROME:
+          wd = new ChromeDriver();
+          break;
+        case BrowserType.FIREFOX:
+          wd = new FirefoxDriver();
+          break;
+        case BrowserType.IE:
+          wd = new InternetExplorerDriver();
+          break;
+        case BrowserType.EDGE:
+          wd = new EdgeDriver();
+          break;
+        case BrowserType.OPERA:
+          wd = new OperaDriver();
+          break;
       }
       wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
       wd.get(properties.getProperty("web.baseUrl"));

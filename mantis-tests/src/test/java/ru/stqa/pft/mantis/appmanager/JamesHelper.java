@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JamesHelper {
+
   private ApplicationManager app;
 
   private TelnetClient telnet;
@@ -59,20 +60,18 @@ public class JamesHelper {
       telnet.connect(mailserver, port);
       in = telnet.getInputStream();
       out = new PrintStream(telnet.getOutputStream());
-
     } catch (IOException e) {
       e.printStackTrace();
     }
-    readUntil("Login id:");
-    write("");
-    readUntil("Password:");
-    write("");
-    readUntil("Login id:");
+//        readUntil("Login id:");
+//        write("");
+//        readUntil("Password:");
+//        write("");
 
+    readUntil("Login id:");
     write(login);
     readUntil("Password:");
     write(password);
-
     readUntil("Welcome " + login + ". HELP for a list of commands");
   }
 

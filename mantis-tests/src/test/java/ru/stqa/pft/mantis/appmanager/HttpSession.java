@@ -51,4 +51,5 @@ public class HttpSession {
     String body = getTextFrom(response);
     return body.contains(String.format("<a href=\"/mantisbt-2.25.2/account_page.php\">%s</a>", username));
   }
+
 }
