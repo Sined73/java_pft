@@ -5,10 +5,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.Properties;
 
@@ -34,14 +37,23 @@ public class ApplicationManager {
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
     dbHelper = new DbHelper();
+    if ("".equals(properties.getProperty("selenium.server"))) {
+      switch (browser) {
+        case BrowserType.CHROME:
+          wd = new ChromeDriver();
+          break;
+        case BrowserType.FIREFOX:
+          wd = new FirefoxDriver();
+          break;
+        case BrowserType.EDGE:
+          wd = new EdgeDriver();
+          break;
+      }
+    } else {
+      DesiredCapabilities capabilities = new DesiredCapabilities();
+      capabilities.setBrowserName(browser);
+      wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
 
-    if (browser.equals(BrowserType.CHROME)) {
-      wd = new ChromeDriver();
-    } else if (browser.equals(BrowserType.FIREFOX)) {
-      wd = new FirefoxDriver();
-    } else if (browser.equals(BrowserType.EDGE)) {
-      wd = new EdgeDriver();
-    }
 //    wd = new ChromeDriver();
 //    wd = new FirefoxDriver();
 //    wd = new EdgeDriver();
