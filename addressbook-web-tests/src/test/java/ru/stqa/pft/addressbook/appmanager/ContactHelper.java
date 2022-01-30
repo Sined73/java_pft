@@ -44,11 +44,10 @@ public class ContactHelper extends HelperBase{
     if (creation) {
       if (contactData.getGroups().size() > 0) {
         Assert.assertTrue(contactData.getGroups().size() == 1);
-        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups()
-                .iterator().next().getName());
-      } else {
-        Assert.assertFalse(isElementPresent(By.name("new_group")));
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
       }
+    } else {
+      Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
   }
 
@@ -80,8 +79,8 @@ public class ContactHelper extends HelperBase{
     wd.findElement(By.xpath("//input[@name='remove']")).click();
   }
 
-  public void selectGroupForDelete(GroupData group) {
-    new Select(wd.findElement(By.xpath("//select[@name='group']"))).selectByValue(String.valueOf(group.getId()));
+  public void selectGroupForDelete(int id) {
+    new Select(wd.findElement(By.name("group"))).selectByValue(String.valueOf(id));
   }
 
   public void addToGroup() {
@@ -118,10 +117,10 @@ public class ContactHelper extends HelperBase{
     addToGroup();
   }
 
-  public void removeContactFromGroup(ContactData contact, GroupData group) {
-    selectGroupForDelete(group);
+  public void removeContactFromGroup(ContactData contact, int id) {
+    selectGroupForDelete(id);
     selectContactById(contact.getId());
-    removeFromGroup();
+    click(By.name("remove"));
   }
 
   public boolean isThereAContact() {

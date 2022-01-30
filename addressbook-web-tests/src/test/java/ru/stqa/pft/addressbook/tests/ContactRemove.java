@@ -7,8 +7,8 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class ContactRemove extends TestBase {
 
@@ -32,58 +32,40 @@ public class ContactRemove extends TestBase {
               .inGroup(groups.iterator().next()));
     }
   }
+
   @Test
-  public void testContactRemoveFromGroup() {
+  public void testDeleteContactFromGroup() {
+    ContactData contact = selectContact();
+    GroupData groupForDel = selectedGroup(contact);
+    Groups before = contact.getGroups();
     app.goTo().homePage();
-    ContactData addedContact = selectContacts();
-    Groups before = addedContact.getGroups();
-    GroupData groupToAdd = selectGroups(addedContact);
-    app.contact().removeContactFromGroup(addedContact, groupToAdd);
-
-    Contacts contacts = app.db().contacts();
-    Groups after = null;
-    for (ContactData contact : contacts) {
-      if (contact.getId() == addedContact.getId()) {
-        after = contact.getGroups();
-      }
-    }
-    assertThat(after, equalTo(before.without(groupToAdd)));
+    app.contact().selectGroupForDelete(groupForDel.getId());
+    app.contact().removeContactFromGroup(contact, groupForDel.getId());
+    ContactData contactsAfter = selectContactById(contact);
+    Groups after = contactsAfter.getGroups();
+    assertThat(after, equalTo(before.without(groupForDel)));
   }
 
-  public GroupData selectGroups(ContactData contact) {
-    return contact.getGroups().iterator().next();
+  private ContactData selectContactById(ContactData contact) {
+    Contacts contactById = app.db().contacts();
+    return contactById.iterator().next().withId(contact.getId());
   }
 
-  public ContactData selectContacts() {
+  private GroupData selectedGroup(ContactData deleteContact) {
+    ContactData contact = selectContactById(deleteContact);
+    Groups deletedContact = contact.getGroups();
+    return deletedContact.iterator().next();
+  }
+
+  private ContactData selectContact() {
     Contacts contacts = app.db().contacts();
-    Groups groups = app.db().groups();
-    int i = contacts.size();
     for (ContactData contact : contacts) {
       if (contact.getGroups().size() > 0) {
         return contact;
       }
-      if (contact.getGroups().size() == 0) {
-        i = i - 1;
-      }
     }
-
-    if (i == 0) {
-      app.contact().create(new ContactData()
-              .withFirstname("Gorky")
-              .withLastname("Maxim")
-              .withAddress("Moscow, Arbat street, 18, ap.30")
-              .withMobilePhone("89055555555")
-              .withEmail("dno54@mail.ru")
-              .inGroup(groups.iterator().next()));
-      app.goTo().homePage();
-      Contacts contacts2 = app.db().contacts();
-      for (ContactData contact2 : contacts2) {
-        if (contact2.getGroups().size() > 0) {
-          return contact2;
-        }
-      }
-      contacts = contacts2;
-    }
-    return contacts.iterator().next();
+    ContactData addContact = app.db().contacts().iterator().next();
+    app.contact().addContactInGroup(addContact, app.db().groups().iterator().next());
+    return addContact;
   }
 }
